@@ -16,7 +16,7 @@ void insertEndOfList(node *head, node *insertNode);
 void freeOfMemoryAlloc(node *head);
 void printLinkedList (node *head);
 void removeNode(node *head, int number);
-void sort(node *head);
+void bubbleSort(node *head);
 
 
 int main(void) 
@@ -55,11 +55,19 @@ int main(void)
         n->next = NULL;
     }
     insertAtBeginningOfList(&head, n);
-    printf("6가 삽입된 연결 리스트 출력\n");
+
+    n = malloc(sizeof(node));
+    if (n != NULL)
+    {
+        n->number = 4;
+        n->next = NULL;
+    }
+    insertAtBeginningOfList(&head, n);
+    printf("6, 4가 삽입된 연결 리스트 출력\n");
     printLinkedList(head);
 
-    sort(head);
-    printf("6이 정렬된 연결 리스트 출력\n");
+    bubbleSort(head);
+    printf("정렬된 연결 리스트 출력\n");
     printLinkedList(head);
    
     freeOfMemoryAlloc(head);
@@ -141,32 +149,43 @@ void removeNode(node *head, int number)
     }
 }
 
-void sort(node *head)
+void bubbleSort(node *head)
 {
-    for (node *tmp = head; tmp->next != NULL; tmp = tmp->next)
+    // List를 순회하며 교환이 됐는지 추적
+    int swapped;
+    // 현재 노드를 가리키는 pointer
+    node *ptr1;
+    // 정렬 과정에서 이미 정렬된 리스트의 끝을 가리키는 포인터. 교환이 없으면 정렬이 된 것으로 간주.
+    node *lptr = NULL;
+
+    //리스트가 비어있으면 반환 
+    if (head == NULL)
+        return;
+    
+    // 교환이 발생(swapped = 1)할 때까지 반복.
+    do
     {
-        for (node *tmp1 = head; tmp1->next != NULL; tmp1 = tmp1->next)
+        swapped = 0;
+        ptr1 = head;
+
+    // ptr1의 다음 노드가 lptr(이미 정렬된 리스트의 끝)와 같지 않을 때까지 반복.
+        while (ptr1->next != lptr)
         {
-            // 다음 노드의 숫자가 특정 노드의 숫자보다 작다면 
-            if (tmp->next->number < tmp1->next->number)
+    // ptr1의 다음 노드의 숫자가 ptr1의 숫자보다 작다면
+            if (ptr1->next->number < ptr1->number)
             {
-                // 1) 삽입할 노드를 임시 변수에 복사
-                node *sorted = malloc(sizeof(node));
-                if (sorted != NULL)
-                {
-                    sorted->number = tmp->next->number;
-                // 2) 임시 노드를 next node(특정 노드의 숫자를 가진)에 연결
-                    sorted->next = tmp1->next;
-                }
-                 // 3) 들어갈 자리 이전(특정 노드의 숫자를 가진 노드에 연결되어 있던)노드를 임시 노드에 연결
-                tmp1->next = sorted;
-                 // 4) 원래 노드의 이전 노드를 원래 노드의 다음 노드로 연결
-                tmp->next = tmp->next->next;
-                 // 5) 원래 노드를 free 해버림.
-                free(tmp->next);
+                // 값 교환
+                int temp = ptr1->number;
+                ptr1->number = ptr1->next->number;
+                ptr1->next->number = temp;
+                swapped = 1;
             }
+            ptr1 = ptr1->next;
         }
-    }
+        lptr = ptr1;
+    } 
+    while 
+    (swapped);
 }
 
 void freeOfMemoryAlloc(node *head)
