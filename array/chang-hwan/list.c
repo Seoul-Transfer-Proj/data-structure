@@ -21,26 +21,8 @@ int main (void)
         // *(arrayA + 1) = 2;
         // *(arrayA + 2) = 3;
 
-    // 2. 배열 B: 길이가 4인 int형 배열을 생성할 임시 메모리 공간 할당.
-    int *arrayB = malloc(4 * sizeof(int));
-
-    // 메모리가 할당되지 않았다면 프로그램 종료
-    if (arrayB == NULL)
-    {
-        return 1;
-    }
-
-    // 3. 배열 A의 값들을 배열 B에 복사.
-    for (int i = 0; i < 3; i++)
-    {
-        arrayB[i] = arrayA[i];
-    }
-    arrayB[3] = 4;
-
-    // 배열 A에 길이가 4인 int 배열 할당.
-    arrayA = arrayB;
-
-    free(arrayB);
+    arrayA = realloc(arrayA, 4 * sizeof(int));
+    arrayA[3] = 4;
 
     for (int i = 0; i < 4; i++)
     {
