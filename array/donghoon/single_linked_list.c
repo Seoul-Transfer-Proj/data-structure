@@ -27,6 +27,20 @@ void insert_n(node *head, const int index, const int data) {
     prenode->next = insert; // 추가한 노드 전의 노드의 next는 추가한 노드의 주소로
 }
 
+// head부터 노드 탐색하면서 추가할 노드값이 해당 인덱스의 노드값보다 크면 넘어가고 작으면 앞에 추가하기 -> 정렬
+void insert_n_order(node *head, const int data) {
+    int i = 0;
+    node *prenode = head;
+    node *insert = (node *)malloc(sizeof(node));
+    insert->data = data;
+
+    while (prenode->next != NULL && prenode->next->data < data) {
+        prenode = prenode->next;
+    }
+    insert->next = prenode->next;
+    prenode->next = insert;
+}
+
 // 노드 삭제
 void delete_n(node *head, const int index) {
     int n = index; // 어느 위치 삭제할건지
@@ -94,6 +108,10 @@ int main() {
     insert_n(head,2,78);
     insert_n(head,3,3);
     insert_n(head,1,26); // 리스트 중간에도 하나 넣어보기
+    print_single(head);
+
+    // 값에 따라 순차적으로 노드 추가
+    insert_n_order(head, 49);
     print_single(head);
 
     // 노드 삭제
