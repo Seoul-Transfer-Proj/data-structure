@@ -17,6 +17,7 @@ void insertOfEnd(node** head_ref, node** tail_ref, int data);
 void insertMiddleOfDDL(node **head_ref, int data);
 void reversePrintDDL(node *tail);
 void searchNodeIndex(node **head, node **tail, int data);
+void freeOfMemoryAlloc(node *head);
 
 int main(void)
 {
@@ -43,6 +44,8 @@ int main(void)
 
     printf("찾는 노드의 index 출력\n");
     searchNodeIndex(&head, &tail, 3);
+
+    freeOfMemoryAlloc(head);
 }
 
 void createDoubleLinkedList(node **head, node **tail, int number)
@@ -191,5 +194,16 @@ node* createNode(int data)
     else 
     {
         return newNode;
+    }
+}
+
+void freeOfMemoryAlloc(node *head)
+{
+    node *ptr = head;
+    while (ptr != NULL)
+    {
+        node *next = ptr->next;
+        free(ptr);
+        ptr = next;
     }
 }
