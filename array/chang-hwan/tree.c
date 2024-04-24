@@ -12,6 +12,7 @@ node;
 node* createNewNode(int data);
 void insertNode(node **root, int data);
 void printBinaryTree(node *root, int level);
+void searchNode(node **root, int number);
 
 int main(void)
 {
@@ -27,6 +28,8 @@ int main(void)
     insertNode(&tree, 177);
     insertNode(&tree, 46);
     printBinaryTree(tree, 0);
+    searchNode(&tree, 4);
+    searchNode(&tree, 15);
 }
 
 void insertNode(node **root, int data)
@@ -68,6 +71,59 @@ void insertNode(node **root, int data)
             else 
             {
                 return;
+            }
+        }
+    }
+}
+
+void searchNode(node **root, int number)
+{
+    if ((*root) == NULL)
+    {
+        printf("tree가 형성되지 않았어요");
+    } else {
+        node *tmp = (*root);
+        while (tmp != NULL)
+        {
+            if (number < tmp->data) 
+            {
+                if (tmp->left == NULL)
+                {
+                    printf("No Node in current tree");
+                } else 
+                {
+                    tmp= tmp->left;
+                }
+            } 
+            // new node의 숫자가 tmp의 숫자보다 크다면
+            else if ( number > tmp->data)
+            {
+                if (tmp->right == NULL)
+                {
+                    printf("No Node in current tree");
+                }
+                else
+                {
+                     tmp = tmp->right;
+                }
+            }
+            else 
+            {
+                node *searchedNode = malloc(sizeof(node));
+                searchedNode->data = tmp->data;
+                searchedNode->left = tmp->left;
+                searchedNode->right = tmp->right;
+                printf("찾은 tree의 값: %d\n", searchedNode->data);
+                if (searchedNode->left != NULL)
+                {
+                    printf("찾은 node->left->data의 값: %d\n", searchedNode->left->data);
+                }
+                if (searchedNode->right != NULL)
+                {
+                    printf("찾은 node->right->data의 값: %d\n", searchedNode->right->data);
+                }
+                free(searchedNode);
+                break;
             }
         }
     }
