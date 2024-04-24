@@ -9,41 +9,55 @@ typedef struct node
 }
 node;
 
-void createDoubleLinkedList(node **head, int number);
+void createDoubleLinkedList(node **head, node **tail, int number);
 void printDoubleLinkedList(node *head);
 node* createNode(int data);
 void insertOfBeginning(node** head_ref, int data);
-void insertOfEnd(node** head_ref, int data);
+void insertOfEnd(node** head_ref, node** tail_ref, int data);
 void insertMiddleOfDDL(node **head_ref, int data);
+void reversePrintDDL(node *tail);
+void searchNodeIndex(node **head, node **tail, int data);
 
 int main(void)
 {
     node *head = NULL;
-    createDoubleLinkedList(&head, 3);
-    insertOfBeginning(&head, 6);
-    insertOfEnd(&head, 19);
-    insertMiddleOfDDL(&head, 15);
+    node *tail = NULL;
+    createDoubleLinkedList(&head, &tail, 3);
+    printf("DDL 1st create 출력\n");
     printDoubleLinkedList(head);
+
+    insertOfBeginning(&head, 6);
+    printf("DDL 6이 삽입된 출력\n");
+    printDoubleLinkedList(head);
+
+    insertOfEnd(&head, &tail, 19);
+    printf("DDL 19가 삽입된 출력\n");
+    printDoubleLinkedList(head);
+
+    insertMiddleOfDDL(&head, 15);
+    printf("DDL 15가 삽입된 출력\n");
+    printDoubleLinkedList(head);
+
+    printf("DDL 역방향 출력\n");
+    reversePrintDDL(tail);
+
+    printf("찾는 노드의 index 출력\n");
+    searchNodeIndex(&head, &tail, 3);
 }
 
-void createDoubleLinkedList(node **head, int number)
+void createDoubleLinkedList(node **head, node **tail, int number)
 {
     // number만큼의 Loop를 돈다.
     for (int i = 1; i <= number; i++)
     {
         // 새로운 node를 생성한다
-        node *n = malloc(sizeof(node));
-        if (n == NULL)
-        {
-            return;
-        }
-        n->number = i;
+        node *new_node = createNode(i);
 
         if (*head == NULL)
         {
-            n->previous = NULL;
-            n->next = NULL;
-            *head = n;
+            new_node->previous = NULL;
+            new_node->next = NULL;
+            *head = new_node;
         } 
         else 
         {
@@ -52,32 +66,12 @@ void createDoubleLinkedList(node **head, int number)
             {
                 tmp = tmp->next;
             }
-            tmp->next = n;
-            n->previous = tmp;
-            n->next = NULL;
-            if (tmp->next == NULL)
-            {
-                
-            }
+            tmp->next = new_node;
+            new_node->previous = tmp;
+            new_node->next = NULL;
+            *tail = new_node;
         }
     }
-}
-
-void printDoubleLinkedList(node *head)
-{
-    for (node *tmp = head; tmp != NULL; tmp = tmp->next)
-    {
-        printf("%i\n", tmp->number);
-    }
-}
-
-node* createNode(int data)
-{
-    node *newNode = (node*)malloc(sizeof(node));
-    newNode->number = data;
-    newNode->previous = NULL;
-    newNode->next = NULL;
-    return newNode;
 }
 
 void insertOfBeginning(node** head_ref, int data)
@@ -94,7 +88,7 @@ void insertOfBeginning(node** head_ref, int data)
     (*head_ref) = new_node;
 }
 
-void insertOfEnd(node** head_ref, int data)
+void insertOfEnd(node** head_ref, node** tail_ref, int data)
 {
     node *new_node = createNode(data);
 
@@ -107,6 +101,7 @@ void insertOfEnd(node** head_ref, int data)
     // tmp->next가 NULL일 때
     new_node->previous = tmp;
     tmp->next = new_node;
+    (*tail_ref) = new_node;
 }
 
 // 숫자 정렬 기능이 있는 삽입 함수
@@ -130,5 +125,71 @@ void insertMiddleOfDDL(node **head_ref, int data)
             tmp->next = new_node;
             break;
         }
+    }
+}
+
+void searchNodeIndex(node **head, node **tail, int data)
+{
+    int index = 0;
+    printf("head Node 기준으로 찾으시겠습니까?(y/Y or n/N 입력 후 엔터): ");
+    char answer;
+    scanf("%c", &answer);
+
+    if (answer == 'y' || answer == 'Y')
+    {
+        // Loop를 돌며 입력한 숫자를 가지고 있는 노드를 찾음.
+        for (node *tmp = (*head); tmp != NULL; tmp = tmp->next)
+        {
+            index ++;
+            if (tmp->number == data)
+            {
+                printf("찾으시는 %i를 가진 노드는 head 기준 %i번째 노드입니다.\n", data, index);
+                break;
+            }
+        }
+    }
+    else
+    {
+        for (node *tmp = (*tail); tmp != NULL; tmp = tmp->previous)
+        {
+            index ++;
+            if (tmp->number == data)
+            {
+                printf("찾으시는 %i를 가진 노드는 tail 기준 %i번째 노드입니다.\n", data, index);
+                break;
+            }
+        }
+    }
+}
+
+void reversePrintDDL(node *tail)
+{
+    for (node *tmp = tail; tmp != NULL; tmp = tmp->previous)
+    {
+        printf("%i\n", tmp->number);
+    }
+}
+
+void printDoubleLinkedList(node *head)
+{
+    for (node *tmp = head; tmp != NULL; tmp = tmp->next)
+    {
+        printf("%i\n", tmp->number);
+    }
+}
+
+node* createNode(int data)
+{
+    node *newNode = (node*)malloc(sizeof(node));
+    if (newNode != NULL)
+    {
+        newNode->number = data;
+        newNode->previous = NULL;
+        newNode->next = NULL;
+        return newNode;
+    }
+    else 
+    {
+        return newNode;
     }
 }
