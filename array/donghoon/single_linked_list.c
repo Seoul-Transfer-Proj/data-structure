@@ -34,8 +34,11 @@ void insert_n_order(node *head, const int data) {
     node *insert = (node *)malloc(sizeof(node));
     insert->data = data;
 
-    while (prenode->next != NULL && prenode->next->data < data) {
+    while (prenode->next != NULL && prenode->next->data < data) 
         prenode = prenode->next;
+    if (prenode == NULL) {
+        free(insert); // 메모리 누수 방지
+        return;
     }
     insert->next = prenode->next;
     prenode->next = insert;
@@ -96,6 +99,17 @@ void print_single(node *head) {
     printf("\n");
 }
 
+// 노드들 전부 deallocate 해주기
+void free_n(node *head) {
+    node *temp;
+    while (head->next != NULL) {
+        temp = head->next;
+        head->next = temp->next;
+        free(temp);
+    }
+    free(head);
+}
+
 int main() {
     node *head = (node*)malloc(sizeof(node)); // heap 영역에 할당
     // head->data = 0; // 뭐가 들어가도 상관 없나..? head 노드는 데이터가 없는 노드인데
@@ -127,11 +141,13 @@ int main() {
     printf("%p\n", head->next);
     printf("%d\n", head->data);
 
-    // 메모리 누수 방지를 위한 head free..?? -> free 이후로는 주소들이 안찍힌다
-    free(head);
+    // 메모리 누수 방지를 위한 head free..?? -> free 이후 노드들도 헤제해주기 위한 함수 구현
+    // free(head);
+    free_n(head);
     
     printf("%p\n", head->next);
     printf("%d\n", head->data);
+    // printf("%p\n", head->next->next);
 
     print_single(head);
 }
