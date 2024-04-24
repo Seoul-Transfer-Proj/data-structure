@@ -17,6 +17,7 @@ void insertOfEnd(node** head_ref, node** tail_ref, int data);
 void insertMiddleOfDDL(node **head_ref, int data);
 void reversePrintDDL(node *tail);
 void searchNodeIndex(node **head, node **tail, int data);
+void removeNode(node **head);
 void freeOfMemoryAlloc(node *head);
 
 int main(void)
@@ -44,6 +45,10 @@ int main(void)
 
     printf("찾는 노드의 index 출력\n");
     searchNodeIndex(&head, &tail, 3);
+
+    printf("index로 삭제한 DDL 출력\n");
+    removeNode(&head);
+    printDoubleLinkedList(head);
 
     freeOfMemoryAlloc(head);
 }
@@ -161,6 +166,37 @@ void searchNodeIndex(node **head, node **tail, int data)
                 printf("찾으시는 %i를 가진 노드는 tail 기준 %i번째 노드입니다.\n", data, index);
                 break;
             }
+        }
+    }
+}
+
+void removeNode(node **head)
+{
+    int index = 0;
+    int checkedIndex = 1;
+    int removedIndex = 9 ;
+    printf("몇번째 node를 삭제하시겠습니까?: ");
+    scanf("%d", &removedIndex);
+    
+    node *tmp = (*head);
+    while (tmp->next != NULL)
+    {
+        checkedIndex++;
+        tmp = tmp->next;
+    }
+    while (checkedIndex < removedIndex)
+    {
+        printf("현재 List길이보다 더 긴 값을 입력했어요.\n현재 List의 길이: %i\n", checkedIndex);
+        printf("다시 삭제할 노드의 index를 입력해주세요: ");
+        scanf("%d", &removedIndex);
+    }
+    for(node *tmp = (*head); tmp != NULL; tmp = tmp->next)
+    {
+        index++;
+        if (index == removedIndex)
+        {
+            tmp->previous->next = tmp->next;
+            tmp->next->previous = tmp->previous;
         }
     }
 }
