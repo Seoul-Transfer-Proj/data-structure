@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <stdlib.h>
+#include <stdlib.h> // malloc과 free를 위해
 
 // head 포인터부터 순차적으로 탐섹하는 single linked list
 // 배엻과 다르게 중간에 데이터를 추가하거나 삭제하는 경우 뒤의 데이터들을 전부 움직이거나 주소가 달라지는 deepcopy를 할 필요가 없다,,
@@ -20,7 +20,7 @@ void insert_n(node *head, const int index, const int data) {
     while (n-- && prenode != NULL) // prenode로 이동해서 
         prenode = prenode->next;
     if (prenode == NULL) {
-        free(insert);
+        free(insert); // 메모리 누수 방지
         return;
     }
     insert->next = prenode->next; // 새로운 노드의 next는 prenode의 next로 바꿔주기
@@ -97,8 +97,8 @@ void print_single(node *head) {
 }
 
 int main() {
-    node *head = (node*)malloc(sizeof(node));
-    head->data = 0; // 뭐가 들어가도 상관 없나..? head 노드는 데이터가 없는 노드인데
+    node *head = (node*)malloc(sizeof(node)); // heap 영역에 할당
+    // head->data = 0; // 뭐가 들어가도 상관 없나..? head 노드는 데이터가 없는 노드인데
     head->next = NULL; // 아직 아무 노드도 들어가지 않았기 때문에 next값은 없다.
     print_single(head);
 
@@ -123,4 +123,15 @@ int main() {
 
     // 인덱스 값으로 해당 노드값 구하기
     printf("인덱스 2의 값 : %d\n", get_v(head, 2));
+
+    printf("%p\n", head->next);
+    printf("%d\n", head->data);
+
+    // 메모리 누수 방지를 위한 head free..?? -> free 이후로는 주소들이 안찍힌다
+    free(head);
+    
+    printf("%p\n", head->next);
+    printf("%d\n", head->data);
+
+    print_single(head);
 }
