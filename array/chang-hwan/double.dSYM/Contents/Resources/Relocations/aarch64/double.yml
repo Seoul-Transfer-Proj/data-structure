@@ -1,0 +1,13 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/lucas/Desktop/seoul-transaction/data-structure/array/chang-hwan/double'
+relocations:
+  - { offsetInCU: 0x26, offset: 0x26, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x0, symBinAddr: 0x100003B78, symSize: 0x64 }
+  - { offsetInCU: 0x8A, offset: 0x8A, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x0, symBinAddr: 0x100003B78, symSize: 0x64 }
+  - { offsetInCU: 0xC0, offset: 0xC0, size: 0x8, addend: 0x0, symName: _createDoubleLinkedList, symObjAddr: 0x64, symBinAddr: 0x100003BDC, symSize: 0x13C }
+  - { offsetInCU: 0x154, offset: 0x154, size: 0x8, addend: 0x0, symName: _insertOfBeginning, symObjAddr: 0x1A0, symBinAddr: 0x100003D18, symSize: 0x7C }
+  - { offsetInCU: 0x194, offset: 0x194, size: 0x8, addend: 0x0, symName: _insertOfEnd, symObjAddr: 0x21C, symBinAddr: 0x100003D94, symSize: 0x7C }
+  - { offsetInCU: 0x1E2, offset: 0x1E2, size: 0x8, addend: 0x0, symName: _insertMiddleOfDDL, symObjAddr: 0x298, symBinAddr: 0x100003E10, symSize: 0xC4 }
+  - { offsetInCU: 0x23E, offset: 0x23E, size: 0x8, addend: 0x0, symName: _printDoubleLinkedList, symObjAddr: 0x35C, symBinAddr: 0x100003ED4, symSize: 0x70 }
+  - { offsetInCU: 0x27E, offset: 0x27E, size: 0x8, addend: 0x0, symName: _createNode, symObjAddr: 0x3CC, symBinAddr: 0x100003F44, symSize: 0x48 }
+...
