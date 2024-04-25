@@ -64,6 +64,22 @@ void insert_t(tree *root, const int data) {
         printf("%d 와 중복된 값이 존재합니다.\n", data);
     }
 }
+
+// 오른쪽 서브트리의 가장 왼쪽노드를 찾기
+tree *find_r_l(tree *parent, tree *node) { // 여기서 node는 삭제하려는 오른쪽 서브트리의 시작 노드를 받는다
+    tree *temp = node;
+    while (temp->left) { // 왼쪽 노드가 있는 경우
+        parent = temp;
+        temp = temp->left;
+    }
+    if (temp == node) { // 찾고자 하는 노드(오른쪽 서브트리에서 가장 왼쪽 노드)가 입력 노드인 경우
+        parent->right = NULL;
+    } else {
+        parent->left = NULL;
+    }
+    return temp;
+}
+
 // 트리 노드 삭제 - 탐섹 후 삭제하고 싶은 노드의 자식들은 어떻게 삭제할 것인가..? 노드들의 왼,오 포인트를 다시 NULL로..?
 // 1. 삭제할 노드의 자식이 없는 경우
 //   -> 해당 노드만 삭제
@@ -113,7 +129,23 @@ void delete_t(tree *node, tree *parent,const int data) {
             free(node);
         }
         // 3. 삭제할 노드에게 두개의 자식이 다 있는 경우..
-
+        // 삭제하려는 노드의 오른쪽 서브트리의 가장 왼쪽 노드와의 포인터를 끊고 (NULL)로 만등고
+        // 삭제하려는 노드의 양쪽 자식들을 삭제하려는 노드의 오른쪽 서브트리의 가장 왼쪽노드에 연결시킨다
+        // 그러기위해서는 오른쪽 서브트리의 가장 왼쪽노드 or 왼쪽 서브트리의 가장 오른쪽 노드를 찾는 함수가 필요! -> 삭제된 노드의 오른쪽 서브트리에 속한  모든 노드가 새롭게 대체될 노드보다 큰 값임을 보장하기 위해
+        else if (node->left && node->right) {
+            // 오른쪽 서브트리의 가장 왼쪽노드 찾기
+            tree *rminnode = find_r_l(node, node->right);
+            // 삭제하려는 노드가 부모의 왼쪽에 존재하면
+            if (parent->left == node) {
+                parent->left = rminnode; // 삭제하려는 노드 대신 위에서 찾은 min노드를 붙인다.
+            } else {
+                parent->right = rminnode;
+            }
+            // 새롭게 붙인 노드에 기존 삭제한 노드의 자식들 붙여주기
+            rminnode->left = node->left;
+            rminnode->right = node->right;
+            free(node); // 노드 삭제
+        }        
     }
 }
 
@@ -179,7 +211,7 @@ int main() {
     printf("\n후위순회 : ");
     LRD(root);
 
-    delete_t(root, root, 9);
+    delete_t(root, root, 3);
     printf("\n삭제 후 전위순회 : ");
     DLR(root);
 
