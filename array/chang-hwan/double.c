@@ -9,51 +9,71 @@ typedef struct node
 }
 node;
 
-void createDoubleLinkedList(node **head, node **tail, int number);
-void printDoubleLinkedList(node *head);
+typedef struct
+{ 
+    node *head;
+    node *tail;
+    int size;
+}
+LinkedList;
+
+LinkedList createLinkedList();
+void createDoubleLinkedList(LinkedList *list, int number);
+void printDoubleLinkedList(LinkedList *list);
 node* createNode(int data);
-void insertOfBeginning(node** head_ref, int data);
-void insertOfEnd(node** head_ref, node** tail_ref, int data);
-void insertMiddleOfDDL(node **head_ref, int data);
-void reversePrintDDL(node *tail);
-void searchNodeIndex(node **head, node **tail, int data);
-void removeNode(node **head);
-void freeOfMemoryAlloc(node *head);
+void insertNode(LinkedList *list, int number);
+void insertOfEnd(LinkedList *list, int number);
+void insertMiddleOfDDL(LinkedList *list, int data);
+void reversePrintDDL(LinkedList *list);
+void searchNodeIndex(LinkedList *list, int data);
+void removeNode(LinkedList *list);
+void freeOfMemoryAlloc(LinkedList *list);
 
 int main(void)
 {
-    node *head = NULL;
-    node *tail = NULL;
-    createDoubleLinkedList(&head, &tail, 3);
+    LinkedList list = createLinkedList();
+
+    createDoubleLinkedList(&list, 3);
     printf("DDL 1st create 출력\n");
-    printDoubleLinkedList(head);
+    printDoubleLinkedList(&list);
 
-    insertOfBeginning(&head, 6);
+    insertNode(&list, 6);
+    insertNode(&list, 119);
     printf("DDL 6이 삽입된 출력\n");
-    printDoubleLinkedList(head);
+    printDoubleLinkedList(&list);
 
-    insertOfEnd(&head, &tail, 19);
+    insertOfEnd(&list, 19);
     printf("DDL 19가 삽입된 출력\n");
-    printDoubleLinkedList(head);
+    printDoubleLinkedList(&list);
 
-    insertMiddleOfDDL(&head, 15);
+    insertMiddleOfDDL(&list, 15);
     printf("DDL 15가 삽입된 출력\n");
-    printDoubleLinkedList(head);
+    printDoubleLinkedList(&list);
 
     printf("DDL 역방향 출력\n");
-    reversePrintDDL(tail);
+    reversePrintDDL(&list);
 
     printf("찾는 노드의 index 출력\n");
-    searchNodeIndex(&head, &tail, 3);
+    searchNodeIndex(&list, 3);
 
     printf("index로 삭제한 DDL 출력\n");
-    removeNode(&head);
-    printDoubleLinkedList(head);
+    removeNode(&list);
+    printDoubleLinkedList(&list);
 
-    freeOfMemoryAlloc(head);
+    //사용한 메모리 해제
+    freeOfMemoryAlloc(&list);
+    printDoubleLinkedList(&list);
 }
 
-void createDoubleLinkedList(node **head, node **tail, int number)
+LinkedList createLinkedList(){
+    LinkedList list;
+    list.head = NULL;
+    list.size = 0;
+
+    return list;
+}
+
+void createDoubleLinkedList(LinkedList *list, int number)
 {
     // number만큼의 Loop를 돈다.
     for (int i = 1; i <= number; i++)
@@ -61,46 +81,55 @@ void createDoubleLinkedList(node **head, node **tail, int number)
         // 새로운 node를 생성한다
         node *new_node = createNode(i);
 
-        if (*head == NULL)
+        if (list->head == NULL)
         {
-            new_node->previous = NULL;
-            new_node->next = NULL;
-            *head = new_node;
-        } 
-        else 
+            list->head = new_node;
+            list->tail = new_node;
+            list->size++;
+        }
+        else
         {
-            node *tmp = *head;
+            node *tmp = list->head;
             while (tmp->next != NULL)
             {
                 tmp = tmp->next;
             }
             tmp->next = new_node;
-            new_node->previous = tmp;
-            new_node->next = NULL;
-            *tail = new_node;
+            tmp->next->previous = tmp;
+            list->tail = tmp->next;
+            list->size++;
         }
     }
 }
 
-void insertOfBeginning(node** head_ref, int data)
+void insertNode(LinkedList *list, int number)
 {
-    node *new_node = createNode(data);
-    new_node->next = (*head_ref);
-    new_node->previous = NULL;
+    node *new_node = createNode(number);
 
-    if ((*head_ref) != NULL)
+    if (list->head == NULL)
     {
-        (*head_ref)->previous = new_node;
-    } 
-
-    (*head_ref) = new_node;
+        list->head = new_node;
+        list->size++;
+    }
+    else
+    {
+        new_node->next = list->head;
+        list->head->previous  = new_node;
+        list->head = new_node;
+        list->size++;
+    }
 }
 
-void insertOfEnd(node** head_ref, node** tail_ref, int data)
+void insertOfEnd(LinkedList *list, int number)
 {
-    node *new_node = createNode(data);
+    node *new_node = createNode(number);
 
-    node *tmp = (*head_ref);
+    if (list->head == NULL)
+    {
+        list->head = new_node;
+    }
+
+    node *tmp = list->head;
     while(tmp->next != NULL)
     {
     // tmp->next가 NULL이 아닐 때
@@ -109,16 +138,17 @@ void insertOfEnd(node** head_ref, node** tail_ref, int data)
     // tmp->next가 NULL일 때
     new_node->previous = tmp;
     tmp->next = new_node;
-    (*tail_ref) = new_node;
+    list->tail = new_node;
+    list->size++;
 }
 
 // 숫자 정렬 기능이 있는 삽입 함수
-void insertMiddleOfDDL(node **head_ref, int data)
+void insertMiddleOfDDL(LinkedList *list, int data)
 {
     node *new_node = createNode(data);
 
     // loop를 돌면서 해당 객체가 가리키고 있는 노드의 숫자와 insert한 숫자와 비교
-    for (node *tmp = (*head_ref); tmp != NULL; tmp = tmp->next )
+    for (node *tmp = list->head; tmp != NULL; tmp = tmp->next )
     {
         // insert한 숫자가 작으면
         if (new_node->number < tmp->next->number)
@@ -131,14 +161,17 @@ void insertMiddleOfDDL(node **head_ref, int data)
             tmp->next->previous = new_node;
         // tmp는->next 는 new_node를 가리킨다. 
             tmp->next = new_node;
+
+            list->size++;
             break;
         }
     }
 }
 
-void searchNodeIndex(node **head, node **tail, int data)
+void searchNodeIndex(LinkedList *list, int data)
 {
     int index = 0;
+    printf("찾는 노드의 index는 %i\n", data);
     printf("head Node 기준으로 찾으시겠습니까?(y/Y or n/N 입력 후 엔터): ");
     char answer;
     scanf("%c", &answer);
@@ -146,7 +179,7 @@ void searchNodeIndex(node **head, node **tail, int data)
     if (answer == 'y' || answer == 'Y')
     {
         // Loop를 돌며 입력한 숫자를 가지고 있는 노드를 찾음.
-        for (node *tmp = (*head); tmp != NULL; tmp = tmp->next)
+        for (node *tmp = list->head; tmp != NULL; tmp = tmp->next)
         {
             index ++;
             if (tmp->number == data)
@@ -158,7 +191,7 @@ void searchNodeIndex(node **head, node **tail, int data)
     }
     else
     {
-        for (node *tmp = (*tail); tmp != NULL; tmp = tmp->previous)
+        for (node *tmp = list->tail; tmp != NULL; tmp = tmp->previous)
         {
             index ++;
             if (tmp->number == data)
@@ -170,51 +203,65 @@ void searchNodeIndex(node **head, node **tail, int data)
     }
 }
 
-void removeNode(node **head)
+void removeNode(LinkedList *list)
 {
-    int index = 0;
-    int checkedIndex = 1;
-    int removedIndex = 9 ;
-    printf("몇번째 node를 삭제하시겠습니까?: ");
-    scanf("%d", &removedIndex);
+    int removedIndex= 7;
+    // printf("몇번째 node를 삭제하시겠습니까?: ");
+    // scanf("%d", &removedIndex);
     
-    node *tmp = (*head);
-    while (tmp->next != NULL)
+    if (removedIndex < 1 || removedIndex > list->size )
     {
-        checkedIndex++;
-        tmp = tmp->next;
-    }
-    while (checkedIndex < removedIndex)
-    {
-        printf("현재 List길이보다 더 긴 값을 입력했어요.\n현재 List의 길이: %i\n", checkedIndex);
+        printf("현재 List길이보다 더 긴 값을 입력했어요.\n현재 List의 길이: %i\n", list->size);
         printf("다시 삭제할 노드의 index를 입력해주세요: ");
-        scanf("%d", &removedIndex);
+        scanf("%i", &removedIndex);
     }
-    for(node *tmp = (*head); tmp != NULL; tmp = tmp->next)
+    
+    int listIndex = 1;
+
+    for (node *tmp = list->head; tmp != NULL; tmp = tmp->next)
     {
-        index++;
-        if (index == removedIndex)
+        if (listIndex == removedIndex)
         {
-            tmp->previous->next = tmp->next;
-            tmp->next->previous = tmp->previous;
+            if (listIndex != list->size)
+            {
+                tmp->previous->next = tmp->next;
+                tmp->next->previous = tmp->previous;
+                free(tmp);
+                list->size--;
+                break;
+            }
+            else
+            {
+                list->tail = tmp->previous;
+                tmp->previous->next = NULL;
+                free(tmp);
+                list->size--;
+                break;
+            }
+        }
+        else
+        {
+            listIndex++;
         }
     }
 }
 
-void reversePrintDDL(node *tail)
+void reversePrintDDL(LinkedList *list)
 {
-    for (node *tmp = tail; tmp != NULL; tmp = tmp->previous)
+    for (node *tmp = list->tail; tmp != NULL; tmp = tmp->previous)
     {
         printf("%i\n", tmp->number);
     }
+     printf("현재 list의 길이는: %i\n", list->size);
 }
 
-void printDoubleLinkedList(node *head)
+void printDoubleLinkedList(LinkedList *list)
 {
-    for (node *tmp = head; tmp != NULL; tmp = tmp->next)
+    for (node *tmp = list->head; tmp != NULL; tmp = tmp->next)
     {
         printf("%i\n", tmp->number);
     }
+    printf("현재 list의 길이는: %i\n", list->size);
 }
 
 node* createNode(int data)
@@ -233,13 +280,13 @@ node* createNode(int data)
     }
 }
 
-void freeOfMemoryAlloc(node *head)
+void freeOfMemoryAlloc(LinkedList *list)
 {
-    node *ptr = head;
-    while (ptr != NULL)
+    node *current = list->tail;
+    while (current != NULL)
     {
-        node *next = ptr->next;
-        free(ptr);
-        ptr = next;
+        node *temp = current;
+        current = current->previous;
+        free(temp);
     }
 }
