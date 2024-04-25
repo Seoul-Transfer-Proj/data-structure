@@ -180,6 +180,33 @@ void LRD(tree *root) {
     printf("%d ", temp->data);
 }
 
+// 원하는 값을 가지고 있는 노드의 자식 출력하기 (전위순회 방식으로)
+void search(tree *root, tree *parent, const int data) {
+    tree *temp = root;
+    // parent = temp;
+    if (temp->data == data) {
+        if (temp->left == NULL && temp->right == NULL) {
+            printf("\n%d에게는 자식 노드가 없습니다 , 부모는 %d 입니다", data, parent->data);
+        } 
+        else if (temp->left == NULL || temp->right == NULL) {
+            if (temp->left) {
+                printf("\n %d에게는 하나의 자식노드 존재 : %d 부모는 %d 입니다", data, temp->left->data, parent->data);
+            } else {
+                printf("\n %d에게는 하나의 자식노드 존재 : %d 부모는 %d 입니다", data, temp->right->data, parent->data);
+            }
+            
+        } else {
+            printf("\n %d의 부모는 %d이고 \n 완쪽 자식은 : %d ", data, parent->data, temp->left->data);
+            printf("\n 오른쪽 자식은 : %d ", temp->right->data);
+        }
+    } else {
+    if (temp->left != NULL)
+        search(temp->left, temp, data);
+    if (temp->right != NULL)
+        search(temp->right, temp, data);
+    }
+}
+
 // 노드 전체 해제
 void free_tree(tree *root) {
     if (root == NULL) return;
@@ -197,7 +224,7 @@ int main() {
     insert_t(root, 15);
     insert_t(root, 6);
     insert_t(root, 1);
-    insert_t(root, 3);
+    insert_t(root, 11);
     insert_t(root, 47);
     insert_t(root, 25);
     insert_t(root, 76);
@@ -215,6 +242,8 @@ int main() {
     delete_t(root, root, 15);
     printf("\n삭제 후 전위순회 : ");
     DLR(root);
+
+    search(root, root, 1);
 
     // free(root);
     free_tree(root);
