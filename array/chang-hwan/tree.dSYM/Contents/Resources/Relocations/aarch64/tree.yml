@@ -1,0 +1,13 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/lucas/Desktop/seoul-transaction/data-structure/array/chang-hwan/tree'
+relocations:
+  - { offsetInCU: 0x26, offset: 0x26, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x0, symBinAddr: 0x100003578, symSize: 0x160 }
+  - { offsetInCU: 0x41, offset: 0x41, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x0, symBinAddr: 0x100003578, symSize: 0x160 }
+  - { offsetInCU: 0x69, offset: 0x69, size: 0x8, addend: 0x0, symName: _insertNode, symObjAddr: 0x160, symBinAddr: 0x1000036D8, symSize: 0x140 }
+  - { offsetInCU: 0xC5, offset: 0xC5, size: 0x8, addend: 0x0, symName: _inOrder, symObjAddr: 0x2A0, symBinAddr: 0x100003818, symSize: 0x6C }
+  - { offsetInCU: 0xE9, offset: 0xE9, size: 0x8, addend: 0x0, symName: _searchNode, symObjAddr: 0x30C, symBinAddr: 0x100003884, symSize: 0x210 }
+  - { offsetInCU: 0x153, offset: 0x153, size: 0x8, addend: 0x0, symName: _deleteNode, symObjAddr: 0x51C, symBinAddr: 0x100003A94, symSize: 0x1EC }
+  - { offsetInCU: 0x1DD, offset: 0x1DD, size: 0x8, addend: 0x0, symName: _createNewNode, symObjAddr: 0x708, symBinAddr: 0x100003C80, symSize: 0x74 }
+  - { offsetInCU: 0x213, offset: 0x213, size: 0x8, addend: 0x0, symName: _printBinaryTree, symObjAddr: 0x77C, symBinAddr: 0x100003CF4, symSize: 0xC4 }
+...
