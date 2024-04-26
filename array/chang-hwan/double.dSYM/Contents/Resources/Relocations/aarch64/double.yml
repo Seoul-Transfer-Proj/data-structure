@@ -2,16 +2,17 @@
 triple:          'arm64-apple-darwin'
 binary-path:     '/Users/lucas/Desktop/seoul-transaction/data-structure/array/chang-hwan/double'
 relocations:
-  - { offsetInCU: 0x26, offset: 0x26, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x0, symBinAddr: 0x1000034A0, symSize: 0x10C }
-  - { offsetInCU: 0x8A, offset: 0x8A, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x0, symBinAddr: 0x1000034A0, symSize: 0x10C }
-  - { offsetInCU: 0xC0, offset: 0xC0, size: 0x8, addend: 0x0, symName: _createDoubleLinkedList, symObjAddr: 0x10C, symBinAddr: 0x1000035AC, symSize: 0x108 }
-  - { offsetInCU: 0x154, offset: 0x154, size: 0x8, addend: 0x0, symName: _printDoubleLinkedList, symObjAddr: 0x214, symBinAddr: 0x1000036B4, symSize: 0x70 }
-  - { offsetInCU: 0x194, offset: 0x194, size: 0x8, addend: 0x0, symName: _insertOfBeginning, symObjAddr: 0x284, symBinAddr: 0x100003724, symSize: 0x7C }
-  - { offsetInCU: 0x1D4, offset: 0x1D4, size: 0x8, addend: 0x0, symName: _insertOfEnd, symObjAddr: 0x300, symBinAddr: 0x1000037A0, symSize: 0x8C }
-  - { offsetInCU: 0x230, offset: 0x230, size: 0x8, addend: 0x0, symName: _insertMiddleOfDDL, symObjAddr: 0x38C, symBinAddr: 0x10000382C, symSize: 0xC4 }
-  - { offsetInCU: 0x28C, offset: 0x28C, size: 0x8, addend: 0x0, symName: _reversePrintDDL, symObjAddr: 0x450, symBinAddr: 0x1000038F0, symSize: 0x70 }
-  - { offsetInCU: 0x2CC, offset: 0x2CC, size: 0x8, addend: 0x0, symName: _searchNodeIndex, symObjAddr: 0x4C0, symBinAddr: 0x100003960, symSize: 0x194 }
-  - { offsetInCU: 0x360, offset: 0x360, size: 0x8, addend: 0x0, symName: _removeNode, symObjAddr: 0x654, symBinAddr: 0x100003AF4, symSize: 0x150 }
-  - { offsetInCU: 0x3D8, offset: 0x3D8, size: 0x8, addend: 0x0, symName: _freeOfMemoryAlloc, symObjAddr: 0x7A4, symBinAddr: 0x100003C44, symSize: 0x5C }
-  - { offsetInCU: 0x426, offset: 0x426, size: 0x8, addend: 0x0, symName: _createNode, symObjAddr: 0x800, symBinAddr: 0x100003CA0, symSize: 0x74 }
+  - { offsetInCU: 0x26, offset: 0x26, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x0, symBinAddr: 0x100003344, symSize: 0x110 }
+  - { offsetInCU: 0x8A, offset: 0x8A, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x0, symBinAddr: 0x100003344, symSize: 0x110 }
+  - { offsetInCU: 0xB2, offset: 0xB2, size: 0x8, addend: 0x0, symName: _createDoubleLinkedList, symObjAddr: 0x110, symBinAddr: 0x100003454, symSize: 0x120 }
+  - { offsetInCU: 0x138, offset: 0x138, size: 0x8, addend: 0x0, symName: _printDoubleLinkedList, symObjAddr: 0x230, symBinAddr: 0x100003574, symSize: 0x94 }
+  - { offsetInCU: 0x17B, offset: 0x17B, size: 0x8, addend: 0x0, symName: _insertNode, symObjAddr: 0x2C4, symBinAddr: 0x100003608, symSize: 0xA4 }
+  - { offsetInCU: 0x1BB, offset: 0x1BB, size: 0x8, addend: 0x0, symName: _insertOfEnd, symObjAddr: 0x368, symBinAddr: 0x1000036AC, symSize: 0xC0 }
+  - { offsetInCU: 0x209, offset: 0x209, size: 0x8, addend: 0x0, symName: _insertMiddleOfDDL, symObjAddr: 0x428, symBinAddr: 0x10000376C, symSize: 0xD4 }
+  - { offsetInCU: 0x265, offset: 0x265, size: 0x8, addend: 0x0, symName: _reversePrintDDL, symObjAddr: 0x4FC, symBinAddr: 0x100003840, symSize: 0x94 }
+  - { offsetInCU: 0x2A5, offset: 0x2A5, size: 0x8, addend: 0x0, symName: _searchNodeIndex, symObjAddr: 0x590, symBinAddr: 0x1000038D4, symSize: 0x1AC }
+  - { offsetInCU: 0x32B, offset: 0x32B, size: 0x8, addend: 0x0, symName: _removeNode, symObjAddr: 0x73C, symBinAddr: 0x100003A80, symSize: 0x19C }
+  - { offsetInCU: 0x387, offset: 0x387, size: 0x8, addend: 0x0, symName: _freeOfMemoryAlloc, symObjAddr: 0x8D8, symBinAddr: 0x100003C1C, symSize: 0x60 }
+  - { offsetInCU: 0x3D9, offset: 0x3D9, size: 0x8, addend: 0x0, symName: _createLinkedList, symObjAddr: 0x938, symBinAddr: 0x100003C7C, symSize: 0xC }
+  - { offsetInCU: 0x401, offset: 0x401, size: 0x8, addend: 0x0, symName: _createNode, symObjAddr: 0x944, symBinAddr: 0x100003C88, symSize: 0x74 }
 ...
