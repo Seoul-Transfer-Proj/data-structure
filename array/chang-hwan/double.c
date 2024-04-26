@@ -68,6 +68,7 @@ int main(void)
 LinkedList createLinkedList(){
     LinkedList list;
     list.head = NULL;
+    list.tail = NULL;
     list.size = 0;
 
     return list;
